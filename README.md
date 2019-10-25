@@ -19,3 +19,7 @@ flutter flutter flutter
 - Go to /lib/main.dart
 - Press F5
 - DONE  😀
+
+### Screenshot
+
+<img width="40%" alt_screenshot src="screenshot/flutter_01.png">
