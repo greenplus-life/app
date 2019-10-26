@@ -2,6 +2,10 @@
 
 flutter flutter flutter
 
+### Screenshot
+
+<img width="40%" alt_screenshot src="screenshot/flutter_02.png">
+
 ### Getting Started
 
 - Install Flutter: https://flutter.dev/docs/get-started/install
@@ -19,7 +23,3 @@ flutter flutter flutter
 - Go to /lib/main.dart
 - Press F5
 - DONE  😀
-
-### Screenshot
-
-<img width="40%" alt_screenshot src="screenshot/flutter_01.png">
