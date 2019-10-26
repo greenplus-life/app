@@ -56,9 +56,9 @@ class _RecordDetailViewState extends State<RecordDetailView> {
           Expanded(
             child: Column(
               children: <Widget>[
-                Text("Test");
-                Text("Test");
-                Text("Test");
+                Text("Test"),
+                Text("Test"),
+                Text("Test"),
                 // getListData(),
                 // recordData.durations.values.map((v) {
                 //   return new ListTile(
