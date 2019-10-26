@@ -143,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
             Text(
-              'Compensate $imageNr',
+              'Footprint level: $imageNr',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
