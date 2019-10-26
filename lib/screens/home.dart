@@ -5,31 +5,39 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_plus/components/FootprintIndicator.dart';
 import 'package:green_plus/components/KeepAliveFutureBuilder.dart';
 import 'package:green_plus/components/TransactionItem.dart';
+import 'package:green_plus/services/greenplus.dart';
 
 class HomeGreenPlus extends StatefulWidget {
-  HomeGreenPlus({Key key, this.userData}) : super(key: key);
+  HomeGreenPlus({Key key, this.userData, this.recordData}) : super(key: key);
 
   final userData;
+  final recordData;
 
   @override
   _HomeGreenPlusState createState() => _HomeGreenPlusState();
 }
 
 class _HomeGreenPlusState extends State<HomeGreenPlus> {
-  int footprintStatus = 6;
   int flow = 2;
   String avatarURL;
   String username;
   int footprint;
+  List<GreenRecordModel> recordData = [];
 
   @override
   void initState() {
-    // TODO call data
     super.initState();
-    updateUI(widget.userData);
+    updateUI(widget.userData, widget.recordData);
   }
 
-  void updateUI(dynamic userData) {
+  getUserData() async {
+    var profileData = await GreenplusModel().getUserData();
+    var recordData = await GreenplusModel().getRecordData();
+
+    updateUI(profileData, recordData);
+  }
+
+  void updateUI(dynamic userData, dynamic greenRecordData) {
     setState(() {
       if (userData == null) {
         username = "";
@@ -40,24 +48,34 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
       username = userData['username'];
       avatarURL = userData['avatarUrl'];
       footprint = userData['footprint'];
-    });
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      flow = 1;
-      if (footprintStatus < 6) {
-        footprintStatus++;
+      flow = userData['footflow'] != null ? userData['footflow'] : 1;
+      if (greenRecordData == null) {
+        recordData = [];
+        return;
       }
-    });
-  }
-
-  void _decreaseCounter() {
-    setState(() {
-      flow = 0;
-      if (footprintStatus > 1) {
-        footprintStatus--;
+      for (var item in greenRecordData) {
+        var record = item['greenRecord'];
+        var dur = item['durations'];
+        var score = item['score'];
+        Map<String, double> durations = Map();
+        if (dur != null) {
+          dur.forEach((k, v) => durations[k] = v);
+        }
+        recordData.add(GreenRecordModel(
+          score: score,
+          notice: record['notice'],
+          meansOfTransportation: record['meansOfTransportation'],
+          energyConsumption: record['energyConsumption'],
+          fuelConsumption: record['fuelConsumption'],
+          originLat: record['origin']['latitude'],
+          originLon: record['origin']['longitude'],
+          targetLat: record['target']['latitude'],
+          targetLon: record['target']['longitude'],
+          durations: durations,
+          appDescription: item['appDescription'],
+        ));
       }
+      print(recordData);
     });
   }
 
@@ -72,12 +90,12 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
     });
   }
 
-  ListView _transactionItems(List items) {
+  ListView _transactionItemsReal() {
     return ListView(
       shrinkWrap: true,
       primary: false,
-      children: items.map((transactionInfo) {
-        return new TransactionItem(transactionInfo: transactionInfo);
+      children: recordData.map((recordModel) {
+        return new TransactionItem(greenRecordModel: recordModel);
       }).toList(),
     );
   }
@@ -108,35 +126,19 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
               ),
             ),
             Expanded(
-              child: FootprintIndicator(
-                flow: flow,
-                footprintStatus: footprintStatus,
+              child: GestureDetector(
+                onTap: () {
+                  getUserData();
+                },
+                child: FootprintIndicator(
+                  flow: flow,
+                  footprintStatus: footprint,
+                ),
               ),
             ),
             Text(
               'Your Ecological Footprint',
               style: Theme.of(context).textTheme.display1,
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FlatButton(
-                    child: Icon(
-                      FontAwesomeIcons.minus,
-                      color: Colors.red,
-                    ),
-                    onPressed: footprintStatus == 1 ? null : _decreaseCounter,
-                  ),
-                  FlatButton(
-                    child: Icon(
-                      FontAwesomeIcons.plus,
-                      color: Colors.green,
-                    ),
-                    onPressed: footprintStatus == 6 ? null : _incrementCounter,
-                  ),
-                ],
-              ),
             ),
             Expanded(
               child: _buildListView(),
@@ -168,7 +170,7 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
-                  return this._transactionItems(snapshot.data);
+                  return this._transactionItemsReal();
                 }
             }
           },

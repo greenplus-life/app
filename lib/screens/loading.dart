@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:green_plus/screens/home.dart';
 import 'package:green_plus/services/greenplus.dart';
 
@@ -15,10 +16,13 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   void getUserData() async {
     var profileData = await GreenplusModel().getUserData();
+    var recordData = await GreenplusModel().getRecordData();
 
+    sleep(Duration(seconds: 2));
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return HomeGreenPlus(
         userData: profileData,
+        recordData: recordData,
       );
     }));
   }
@@ -26,7 +30,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    // getUserData();
+    getUserData();
   }
 
   @override
