@@ -2,6 +2,19 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
+Map<int, Color> color = {
+  50: Color.fromRGBO(132, 174, 83, .1),
+  100: Color.fromRGBO(132, 174, 83, .2),
+  200: Color.fromRGBO(132, 174, 83, .3),
+  300: Color.fromRGBO(132, 174, 83, .4),
+  400: Color.fromRGBO(132, 174, 83, .5),
+  500: Color.fromRGBO(132, 174, 83, .6),
+  600: Color.fromRGBO(132, 174, 83, .7),
+  700: Color.fromRGBO(132, 174, 83, .8),
+  800: Color.fromRGBO(132, 174, 83, .9),
+  900: Color.fromRGBO(132, 174, 83, 1),
+};
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -19,6 +32,7 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.green,
+        scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Green +'),
@@ -46,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int imageNr = 5;
 
   void _incrementCounter() {
     setState(() {
@@ -55,6 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      if (imageNr == 1) {
+        imageNr = 5;
+      } else {
+        imageNr--;
+      }
     });
   }
 
@@ -92,11 +112,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            // Container(
+            //   child: Image(
+            //     image: AssetImage("assets/tree_animation.gif"),
+            //   ),
+            //   margin: EdgeInsets.all(15),
+            //   decoration: BoxDecoration(
+            //     color: Colors.green,
+            //     borderRadius: BorderRadius.circular(10.0),
+            //   ),
+            // ),
+            IndexedStack(
+              index: imageNr - 1,
+              children: <Image>[
+                Image(
+                  image: AssetImage("assets/tree_animation-1-reverse.gif"),
+                ),
+                Image(
+                  image: AssetImage("assets/tree_animation-2-reverse.gif"),
+                ),
+                Image(
+                  image: AssetImage("assets/tree_animation-3-reverse.gif"),
+                ),
+                Image(
+                  image: AssetImage("assets/tree_animation-4-reverse.gif"),
+                ),
+                Image(
+                  image: AssetImage("assets/tree_animation-5-reverse.gif"),
+                ),
+              ],
             ),
             Text(
-              '$_counter',
+              'Compensate $imageNr',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
