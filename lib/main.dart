@@ -1,4 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:green_plus/components/KeepAliveFutureBuilder.dart';
+import 'package:green_plus/components/TransactionItem.dart';
+
+import 'package:green_plus/components/FootprintIndicator.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,21 +23,11 @@ Map<int, Color> color = {
 };
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Green +',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.green,
         scaffoldBackgroundColor: Colors.white,
       ),
@@ -43,15 +40,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -59,101 +47,121 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   int imageNr = 5;
+  int flow = 0;
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-      if (imageNr == 1) {
-        imageNr = 5;
-      } else {
+      flow = 1;
+      if (imageNr < 5) {
+        imageNr++;
+      }
+    });
+  }
+
+  void _decreaseCounter() {
+    setState(() {
+      flow = 0;
+      if (imageNr > 1) {
         imageNr--;
       }
     });
   }
 
+  _fetchPage(int pageNumber, int pageSize) async {
+    await Future.delayed(Duration(seconds: 1));
+
+    return List.generate(pageSize, (index) {
+      return {
+        'name': 'Transaction ${index.toString()}',
+        'consumption': Random().nextInt(100),
+      };
+    });
+  }
+
+  ListView _transactionItems(List items) {
+    return ListView(
+      shrinkWrap: true,
+      primary: false,
+      children: items.map((transactionInfo) {
+        return new TransactionItem(transactionInfo: transactionInfo);
+      }).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Container(
-            //   child: Image(
-            //     image: AssetImage("assets/tree_animation.gif"),
-            //   ),
-            //   margin: EdgeInsets.all(15),
-            //   decoration: BoxDecoration(
-            //     color: Colors.green,
-            //     borderRadius: BorderRadius.circular(10.0),
-            //   ),
-            // ),
-            IndexedStack(
-              index: imageNr - 1,
-              children: <Image>[
-                Image(
-                  image: AssetImage("assets/tree_animation-1-reverse.gif"),
-                ),
-                Image(
-                  image: AssetImage("assets/tree_animation-2-reverse.gif"),
-                ),
-                Image(
-                  image: AssetImage("assets/tree_animation-3-reverse.gif"),
-                ),
-                Image(
-                  image: AssetImage("assets/tree_animation-4-reverse.gif"),
-                ),
-                Image(
-                  image: AssetImage("assets/tree_animation-5-reverse.gif"),
-                ),
-              ],
+            Expanded(
+              child: FootprintIndicator(imageNr: imageNr, flow: flow),
             ),
             Text(
-              'Footprint level: $imageNr',
-              style: Theme.of(context).textTheme.display1,
+              'Your Ecological Footprint',
+              style: Theme.of(context).textTheme.title,
             ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Icon(
+                      FontAwesomeIcons.minus,
+                      color: Colors.red,
+                    ),
+                    onPressed: imageNr == 1 ? null : _decreaseCounter,
+                  ),
+                  FlatButton(
+                    child: Icon(
+                      FontAwesomeIcons.plus,
+                      color: Colors.green,
+                    ),
+                    onPressed: imageNr == 5 ? null : _incrementCounter,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: _buildListView(),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  ListView _buildListView() {
+    return ListView.builder(
+      itemBuilder: (context, pageNumber) {
+        return KeepAliveFutureBuilder(
+          future: this._fetchPage(pageNumber, 20),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 2,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              case ConnectionState.active:
+              case ConnectionState.done:
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return this._transactionItems(snapshot.data);
+                }
+            }
+          },
+        );
+      },
     );
   }
 }
