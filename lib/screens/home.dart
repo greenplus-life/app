@@ -88,17 +88,6 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
     });
   }
 
-  // _fetchPage(int pageNumber, int pageSize) async {
-  //   await Future.delayed(Duration(seconds: 1));
-
-  //   return List.generate(pageSize, (index) {
-  //     return {
-  //       'name': 'Transaction ${index.toString()}',
-  //       'consumption': Random().nextInt(100),
-  //     };
-  //   });
-  // }
-
   ListView _transactionItemsReal() {
     var listData = recordData.map((recordModel) {
       return TransactionItem(greenRecordModel: recordModel);
@@ -144,12 +133,14 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 10.0),
+                          padding: EdgeInsets.only(right: 15.0),
                           child: Icon(
                             Icons.warning,
                             color: Colors.red,
+                            size: 30.0,
                           ),
                         ),
                       ],
@@ -174,41 +165,11 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
               style: Theme.of(context).textTheme.display1,
             ),
             Expanded(
-              child: _buildListView(),
+              child: _transactionItemsReal(),
             )
           ],
         ),
       ),
     );
-  }
-
-  ListView _buildListView() {
-    // return ListView.builder(
-    //   itemBuilder: (context, pageNumber) {
-    //     return KeepAliveFutureBuilder(
-    //       future: this._fetchPage(pageNumber, 20),
-    //       builder: (context, snapshot) {
-    //         switch (snapshot.connectionState) {
-    //           case ConnectionState.none:
-    //           case ConnectionState.waiting:
-    //             return SizedBox(
-    //               height: MediaQuery.of(context).size.height * 2,
-    //               child: Align(
-    //                 alignment: Alignment.center,
-    //                 child: CircularProgressIndicator(),
-    //               ),
-    //             );
-    //           case ConnectionState.active:
-    //           case ConnectionState.done:
-    //             if (snapshot.hasError) {
-    //               return Text('Error: ${snapshot.error}');
-    //             } else {
-    return this._transactionItemsReal();
-    //             }
-    //         }
-    //       },
-    //     );
-    //   },
-    // );
   }
 }
