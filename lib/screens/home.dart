@@ -1,9 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:green_plus/components/FootprintIndicator.dart';
-import 'package:green_plus/components/KeepAliveFutureBuilder.dart';
 import 'package:green_plus/components/TransactionItem.dart';
 import 'package:green_plus/services/greenplus.dart';
 
@@ -24,10 +23,14 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
   int footprint;
   List<GreenRecordModel> recordData = [];
 
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     updateUI(widget.userData, widget.recordData);
+    const sec = const Duration(seconds: 3);
+    Timer.periodic(sec, (Timer t) => getUserData());
   }
 
   getUserData() async {
@@ -49,6 +52,7 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
       avatarURL = userData['avatarUrl'];
       footprint = userData['footprint'];
       flow = userData['footflow'] != null ? userData['footflow'] : 1;
+      print('User: $username / Footprint: $footprint / Flow: $flow');
       if (greenRecordData == null) {
         recordData = [];
         return;
@@ -62,8 +66,6 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
         if (dur != null) {
           dur.forEach((k, v) => durations[k] = v);
         }
-        print(record['originDate']);
-        print(record['targetDate']);
         recordData.add(GreenRecordModel(
           score: score,
           notice: record['notice'],
@@ -84,7 +86,6 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
           appDescription: item['appDescription'],
         ));
       }
-      print(recordData);
     });
   }
 

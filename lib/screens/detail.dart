@@ -79,9 +79,8 @@ class _RecordDetailViewState extends State<RecordDetailView> {
   }
 
   getListData() {
-    print(recordData);
     var difference =
-        recordData.targetDate.difference(recordData.originDate).inSeconds;
+        recordData.targetDate.difference(recordData.originDate).inMinutes;
     print(difference);
     var bestTransportation = recordData.meansOfTransportation;
     var bestTransportationTime = difference;

@@ -14,8 +14,8 @@ class GreenplusModel {
   Future<dynamic> getUserData() async {
     http.Response response = await http.get(greenplusUrl);
     if (response.statusCode == 200) {
-      print(response.statusCode);
-      print(jsonDecode(response.body));
+      // print(response.statusCode);
+      // print(jsonDecode(response.body));
       return jsonDecode(response.body);
     } else {
       print(response.statusCode);
@@ -25,8 +25,8 @@ class GreenplusModel {
   Future<dynamic> getRecordData() async {
     http.Response response = await http.get('$greenplusUrl/greenrecords');
     if (response.statusCode == 200) {
-      print(response.statusCode);
-      print(jsonDecode(response.body));
+      // print(response.statusCode);
+      // print(jsonDecode(response.body));
       return jsonDecode(response.body);
     } else {
       print(response.statusCode);

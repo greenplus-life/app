@@ -4,7 +4,7 @@ flutter flutter flutter
 
 ### Screenshot
 
-<img width="40%" alt_screenshot src="screenshot/flutter_02.png">
+<img width="40%" alt_screenshot src="assets/1_loading.gif">
 
 ### Getting Started
 
@@ -23,3 +23,8 @@ flutter flutter flutter
 - Go to /lib/main.dart
 - Press F5
 - DONE  😀
+
+
+### Credits
+
+Tree animation by GeeskeS https://www.youtube.com/watch?v=kYcIkOTqtcc

@@ -18,7 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     var profileData = await GreenplusModel().getUserData();
     var recordData = await GreenplusModel().getRecordData();
 
-    sleep(Duration(seconds: 2));
+    // sleep(Duration(seconds: 4));
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return HomeGreenPlus(
         userData: profileData,
@@ -30,7 +30,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    getUserData();
+    // getUserData();
   }
 
   @override
