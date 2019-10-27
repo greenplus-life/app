@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 const greenplusUrl =
-    'https://stuttgart-hackathon-2019.herokuapp.com/greenusers/1';
+    'https://stuttgart-hackathon-2019.herokuapp.com/greenusers/3';
 
 class GreenplusModel {
   GreenplusModel({this.username, this.avatarUrl, this.footprint});
@@ -37,6 +37,8 @@ class GreenplusModel {
 class GreenRecordModel {
   GreenRecordModel({
     this.meansOfTransportation,
+    this.originDate,
+    this.targetDate,
     this.originLon,
     this.originLat,
     this.targetLon,
@@ -50,6 +52,8 @@ class GreenRecordModel {
   });
 
   String meansOfTransportation;
+  DateTime originDate;
+  DateTime targetDate;
   double originLon;
   double originLat;
   double targetLon;

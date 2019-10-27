@@ -61,12 +61,20 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
         if (dur != null) {
           dur.forEach((k, v) => durations[k] = v);
         }
+        print(record['originDate']);
+        print(record['targetDate']);
         recordData.add(GreenRecordModel(
           score: score,
           notice: record['notice'],
           meansOfTransportation: record['meansOfTransportation'],
           energyConsumption: record['energyConsumption'],
           fuelConsumption: record['fuelConsumption'],
+          originDate: record['originDate'] != null
+              ? DateTime.parse(record['originDate'])
+              : DateTime.parse("1970-01-01T00:00:00Z"),
+          targetDate: record['targetDate'] != null
+              ? DateTime.parse(record['targetDate'])
+              : DateTime.parse("1970-01-01T00:00:00Z"),
           originLat: record['origin']['latitude'],
           originLon: record['origin']['longitude'],
           targetLat: record['target']['latitude'],
