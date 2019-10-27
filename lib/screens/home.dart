@@ -53,7 +53,7 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
         recordData = [];
         return;
       }
-      recordData = [];
+      recordData.clear();
       for (var item in greenRecordData) {
         var record = item['greenRecord'];
         var dur = item['durations'];
@@ -100,12 +100,13 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
   // }
 
   ListView _transactionItemsReal() {
+    var listData = recordData.map((recordModel) {
+      return TransactionItem(greenRecordModel: recordModel);
+    }).toList();
     return ListView(
       shrinkWrap: true,
       primary: false,
-      children: recordData.map((recordModel) {
-        return new TransactionItem(greenRecordModel: recordModel);
-      }).toList(),
+      children: listData,
     );
   }
 
@@ -129,9 +130,32 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 8.0),
-              child: Text(
-                '$username',
-                style: Theme.of(context).textTheme.title,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(""),
+                  ),
+                  Expanded(
+                    child: Text(
+                      '$username',
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 10.0),
+                          child: Icon(
+                            Icons.warning,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
