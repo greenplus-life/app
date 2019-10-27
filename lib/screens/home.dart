@@ -53,6 +53,7 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
         recordData = [];
         return;
       }
+      recordData = [];
       for (var item in greenRecordData) {
         var record = item['greenRecord'];
         var dur = item['durations'];
@@ -87,16 +88,16 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
     });
   }
 
-  _fetchPage(int pageNumber, int pageSize) async {
-    await Future.delayed(Duration(seconds: 1));
+  // _fetchPage(int pageNumber, int pageSize) async {
+  //   await Future.delayed(Duration(seconds: 1));
 
-    return List.generate(pageSize, (index) {
-      return {
-        'name': 'Transaction ${index.toString()}',
-        'consumption': Random().nextInt(100),
-      };
-    });
-  }
+  //   return List.generate(pageSize, (index) {
+  //     return {
+  //       'name': 'Transaction ${index.toString()}',
+  //       'consumption': Random().nextInt(100),
+  //     };
+  //   });
+  // }
 
   ListView _transactionItemsReal() {
     return ListView(
