@@ -158,32 +158,32 @@ class _HomeGreenPlusState extends State<HomeGreenPlus> {
   }
 
   ListView _buildListView() {
-    return ListView.builder(
-      itemBuilder: (context, pageNumber) {
-        return KeepAliveFutureBuilder(
-          future: this._fetchPage(pageNumber, 20),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 2,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              case ConnectionState.active:
-              case ConnectionState.done:
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  return this._transactionItemsReal();
-                }
-            }
-          },
-        );
-      },
-    );
+    // return ListView.builder(
+    //   itemBuilder: (context, pageNumber) {
+    //     return KeepAliveFutureBuilder(
+    //       future: this._fetchPage(pageNumber, 20),
+    //       builder: (context, snapshot) {
+    //         switch (snapshot.connectionState) {
+    //           case ConnectionState.none:
+    //           case ConnectionState.waiting:
+    //             return SizedBox(
+    //               height: MediaQuery.of(context).size.height * 2,
+    //               child: Align(
+    //                 alignment: Alignment.center,
+    //                 child: CircularProgressIndicator(),
+    //               ),
+    //             );
+    //           case ConnectionState.active:
+    //           case ConnectionState.done:
+    //             if (snapshot.hasError) {
+    //               return Text('Error: ${snapshot.error}');
+    //             } else {
+    return this._transactionItemsReal();
+    //             }
+    //         }
+    //       },
+    //     );
+    //   },
+    // );
   }
 }
