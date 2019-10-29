@@ -1,6 +1,5 @@
-# Green+ app
-
-flutter flutter flutter
+# Green+ - Sustainable Mobility 
+The official Green+ App based on Flutter.
 
 ### Screenshot
 
