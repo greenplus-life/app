@@ -50,7 +50,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           Expanded(
             flex: 3,
             child: Image(
-              image: AssetImage("assets/tree_animation-5.gif"),
+              image: AssetImage("assets/tree_inf.gif"),
             ),
           ),
         ],
