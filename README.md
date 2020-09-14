@@ -18,9 +18,13 @@ The official Green+ App based on Flutter.
 
 ### Run
 
-- CMD + SHIFT + P --> Flutter: Launch Emulator
-- Go to /lib/main.dart
-- Press F5
+
+- Open in VS Code:
+    - **MacOS:** `CMD + SHIFT + P`
+    - **Win:**   `CTRL + SHIFT + P`
+    - `Flutter: Launch Emulator`
+- Go to `/lib/main.dart`
+- Press `F5`
 - DONE  😀
 
 
